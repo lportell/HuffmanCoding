@@ -14,6 +14,7 @@ let init = function () {
     createSymbolInfo(allSymbols);
     initForest(symbol_info);
     condenseForest();
+    getCodes();
     //console.log(inputString);
 };
 
@@ -81,6 +82,31 @@ let condenseForest = function(){
       }
       if (debug){printTree(tree);}
 }
+
+let getCodes = function(){
+    for (item in symbol_info){
+      let symbol = symbol_info[item];
+      let node = tree[symbol.leaf];
+      let index = symbol.leaf
+      let code = [];
+      while (node.parent != -1){
+        // if it is a left child prepend a 1 to the code,
+        // otherwise prepend a 0
+        if (tree[node.parent].left_child == index){
+          code.unshift(1);
+        }else{
+          code.unshift(0);
+        }
+        index = node.parent;
+        node = tree[node.parent];
+
+      }
+      symbol_info[item].code = code.join('');
+      console.log(symbol_info[item]);
+    }
+
+}
+
 let findLeaf = function(root){
   for (symbol in symbol_info){
     if (symbol_info[symbol].leaf==root){
@@ -112,12 +138,6 @@ let printTree = function(tree){
     }
     curLevel = nextLevel;
   }
-
-
-
-
-
-
 }
 
 init();
