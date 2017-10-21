@@ -61,6 +61,33 @@ class MinPriorityQueue{
         }
         return array;
     }
+    printQueue(){
+      let curLevel = [1];
+      while (curLevel.length>0){
+        let nextLevel = [];
+        let lweight,rweight;
+        console.log('NewLevel');
+        for(var j=0;j<curLevel.length;j++){
+          let node = this.items[curLevel[j]];
+          let leftIndex = 2*curLevel[j];
+          let rightIndex = 2*curLevel[j]+1;
+          if (leftIndex<=this.n){
+            nextLevel.push(leftIndex);
+            lweight = this.items[leftIndex].weight;
+          }else{
+            lweight = '';
+          }
+          if (rightIndex<=this.n){
+            nextLevel.push(rightIndex);
+            rweight = this.items[rightIndex].weight;
+          }else{
+            rweight = '';
+          }
+          console.log('I:',curLevel[j],':',node.weight,'L:',leftIndex,':',lweight,'R:',rightIndex,':',rweight);
+        }
+        curLevel = nextLevel;
+      }
+    }
 };
 
 global.MinPriorityQueue = MinPriorityQueue;
